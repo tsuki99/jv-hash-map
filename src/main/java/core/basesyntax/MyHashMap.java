@@ -8,8 +8,9 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     private int size;
     private Node<K, V>[] table;
 
+    @SuppressWarnings("unchecked")
     public MyHashMap() {
-        table = new Node[INITIAL_CAPACITY];
+        table = (Node<K,V>[])new Node[INITIAL_CAPACITY];
     }
 
     @Override
@@ -63,7 +64,8 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     private int getIndex(K key) {
-        return Math.abs(hash(key)) % currentCapacity;
+        int h = hash(key) == Integer.MIN_VALUE ? 0 : Math.abs(hash(key));
+        return h % currentCapacity;
     }
 
     private int hash(K key) {
